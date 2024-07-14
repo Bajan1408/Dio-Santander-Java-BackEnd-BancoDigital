@@ -1,22 +1,29 @@
+import java.util.Comparator;
+
 public abstract class Conta implements IConta {
 
-    private static final String AGENCIA_PADRAO = "378";
+    private static final int AGENCIA_PADRAO = 378;
     private static int SEQUENCIAL = 1;
 
-    protected String agencia;
-    protected String numero;
+    protected int agencia;
+    protected int numero;
+    protected String cliente;
     protected double saldo = 0;
 
     public Conta() {
         this.agencia = AGENCIA_PADRAO;
-        this.numero = "00" + SEQUENCIAL++;
+        this.numero = SEQUENCIAL++;
     }
 
-    public String getAgencia() {
+    public String getCliente() {
+        return cliente;
+    }
+
+    public int getAgencia() {
         return agencia;
     }
 
-    public String getNumero() {
+    public int getNumero() {
         return numero;
     }
 
@@ -26,7 +33,8 @@ public abstract class Conta implements IConta {
 
     protected void imprimirInfosComuns() {
         System.out.println("Agencia: " + this.agencia);
-        System.out.println("Número: " + this.numero);
+        System.out.println(String.format("Conta Número: %03d", this.numero));
+        System.out.println("Cliente: " + this.cliente);
         System.out.println(String.format("Saldo: %.2f", this.saldo));
     }
 
@@ -47,4 +55,13 @@ public abstract class Conta implements IConta {
         contaDestino.depositar(valor);
     }
     
+}
+
+class CompararContaPorNumero implements Comparator<Conta> {
+
+    @Override
+    public int compare(Conta conta1, Conta conta2) {
+        return Integer.compare(conta1.getNumero(), conta2.getNumero());
+    }
+
 }
